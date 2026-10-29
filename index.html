@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>BarberShop Force — клуб мужских стрижек, Верхняя Салда</title>
+
+  <!-- Шрифты: Unbounded для слова FORCE, Golos Text для остального текста -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600&family=Unbounded:wght@600;900&display=swap&subset=cyrillic" rel="stylesheet">
+
+  <style>
+    /* ========== Цвета ==========
+       skin  — тон кожи, фон («кожа» после фейда)
+       ink   — тёмно-синие «волосы»
+       blue  — синий от барберского столба, для кнопки */
+    :root {
+      --skin: #dcc0a1;
+      --ink: #14203d;
+      --muted: #3d4764;
+      --blue: #2a47d4;
+      --on-blue: #ffffff;
+
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --skin: #0f1729;
+        --ink: #e9d3b8;
+        --muted: #a9b1c8;
+        --blue: #8196ff;
+        --on-blue: #0f1729;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --skin: #0f1729;
+      --ink: #e9d3b8;
+      --muted: #a9b1c8;
+      --blue: #8196ff;
+      --on-blue: #0f1729;
+    }
+
+    /* ========== Базовые стили ========== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      background: var(--skin);
+      color: var(--ink);
+      font-family: "Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 3px;
+    }
+
+    .screen {
+      min-height: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 22px 36px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ========== Шапка ========== */
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px 0 0;
+      font-size: 15px;
+    }
+
+    .brand {
+      font-family: "Unbounded", "Arial Black", sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .town {
+      color: var(--muted);
+    }
+
+    /* ========== Слово FORCE ==========
+       Сверху буквы сплошные, ниже распадаются на тонкие вертикальные линии
+       («щетина»), а у основания исчезают: как фейд на стрижке. */
+    .word {
+      margin: auto -0.04em 0;
+      padding-top: 6vh;
+      font-family: "Unbounded", "Arial Black", Impact, sans-serif;
+      font-weight: 900;
+      font-size: min(19vw, 230px);
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+
+      background:
+        linear-gradient(to bottom, var(--ink) 0 42%, transparent 42%),
+        repeating-linear-gradient(90deg, var(--ink) 0 3px, transparent 3px 8px);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+
+      -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 98%);
+      mask-image: linear-gradient(to bottom, #000 60%, transparent 98%);
+
+      /* Единственная анимация: слово «проходит» машинкой слева направо */
+      animation: pass 0.9s cubic-bezier(0.7, 0, 0.2, 1) both;
+    }
+
+    @keyframes pass {
+      from { clip-path: inset(0 100% 0 0); }
+      to   { clip-path: inset(0 0 0 0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .word {
+        animation: none;
+      }
+    }
+
+    /* Если браузер не умеет background-clip: text, показываем слово сплошным */
+    @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+      .word {
+        color: var(--ink);
+        -webkit-text-fill-color: currentColor;
+      }
+    }
+
+    /* ========== Текст и контакты ========== */
+    .info {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 32px 48px;
+      align-items: end;
+      padding-top: 8px;
+    }
+
+    .info h1 {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 600;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+
+    .info p {
+      max-width: 44ch;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .contact {
+      display: grid;
+      gap: 14px;
+      justify-items: start;
+    }
+
+    .contact small {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 16px 28px;
+      background: var(--blue);
+      color: var(--on-blue);
+      font-weight: 600;
+      font-size: 20px;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+
+    .btn:hover {
+      filter: brightness(1.1);
+    }
+
+    .vk {
+      font-weight: 600;
+      text-underline-offset: 4px;
+    }
+
+    @media (max-width: 720px) {
+      .info {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="screen">
+
+    <!-- ========== Шапка ========== -->
+    <header>
+      <a class="brand" href="#top">BarberShop Force</a>
+      <span class="town">Верхняя Салда</span>
+    </header>
+
+    <!-- ========== Первый экран ========== -->
+    <div class="word" id="top" aria-hidden="true">FORCE</div>
+
+    <div class="info">
+      <div>
+        <h1>Клуб мужских стрижек</h1>
+        <p>
+          Профессионально стрижём мужчин. Для нашей команды главное —
+          сервис и качество работы.
+        </p>
+      </div>
+
+      <div class="contact">
+        <small>Запись по телефону</small>
+        <a class="btn" href="tel:+79089024621">+7 (908) 902-46-21</a>
+        <a class="vk" href="https://vk.ru/vs_barb" target="_blank" rel="noopener">Мы ВКонтакте</a>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
